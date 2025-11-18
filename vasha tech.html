@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VASHA TECH TRADERS</title>
+  <link rel="stylesheet" href="vasha tech.css" />
+  <link rel="stylesheet" href="warranty-modal.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="container">
+    <!-- HEADER -->
+    <header>
+      <h1>VASHA TECH TRADERS</h1>
+      <p class="tagline">Innovative Solutions for a Digital World</p>
+    </header>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="nav-bar">
+      <ul>
+        <li><a href="#home" class="active">HOME</a></li>
+        <li><a href="#product">PRODUCTS</a></li>
+        <li><a href="#about">ABOUT US</a></li>
+        <li><a href="#contact">CONTACT US</a></li>
+        <li>
+          <button class="cart-btn" onclick="openCart()">
+            <i class="fas fa-shopping-cart"></i> Cart
+            <span id="cart-count" class="cart-count">0</span>
+          </button>
+        </li>
+        <li>
+          <input type="button" id="logout-btn" value="LOG OUT" onclick="window.location.href='login.html'" />
+        </li>
+      </ul>
+    </nav>
+
+    <!-- CART MODAL -->
+    <div id="cartModal" class="cart-modal">
+      <div class="cart-content">
+        <button class="close-cart" onclick="closeCart()">×</button>
+        <h2>Shopping Cart</h2>
+        <div class="cart-items" id="cart-items">
+          <!-- Cart items load dynamically -->
+        </div>
+        <div class="cart-total">
+          Total: KSh <span id="cart-total">0.00</span>
+        </div>
+        <div class="cart-actions">
+          <button class="continue-shopping" onclick="closeCart()">Continue Shopping</button>
+          <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEVICE REPORT MODAL -->
+    <div id="reportModal" class="report-modal">
+      <div class="report-content">
+        <button class="close-report" onclick="closeReport()">×</button>
+        <div id="report-content">
+          <!-- Report content will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- WARRANTY DETAILS MODAL -->
+    <div id="warrantyModal" class="warranty-modal">
+      <div class="warranty-content">
+        <button class="close-warranty" onclick="closeWarranty()">×</button>
+        <h2>Warranty Details</h2>
+        <div id="warranty-content">
+          <!-- Warranty content will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- HOME SECTION -->
+    <section id="home" class="home">
+      <h1>Reliable Secondhand Laptops & Desktops</h1>
+      <p>QR Code-Linked Diagnostics for Transparent Device History</p>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <section id="product" class="products">
+      <div class="catalogue-header">
+        <h2 class="catalogue-title">AVAILABLE DEVICES</h2>
+        <div class="filter-sort">
+          <select id="category-filter">
+            <option value="all">All Categories</option>
+            <option value="laptop">Laptops</option>
+            <option value="desktop">Desktops</option>
+          </select>
+          <select id="price-sort">
+            <option value="default">Sort by Price</option>
+            <option value="low-high">Low to High</option>
+            <option value="high-low">High to Low</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search-input" placeholder="Search device..." />
+      </div>
+
+      <div class="laptop-grid" id="devices-grid">
+        <!-- Devices will be loaded dynamically here -->
+        <div class="loading-message">Loading devices...</div>
+      </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="about-section">
+      <h2>Our Mission</h2>
+      <p>
+        To develop a reliable tracking system for secondhand devices that enhances transparency and builds trust between buyers and sellers in the technology market.
+      </p>
+    </section>
+
+    <section class="objectives-section">
+      <h2>Our Objectives</h2>
+      <div class="objectives-grid">
+        <div class="objective-card">
+          <h3>General Objective</h3>
+          <p>
+            To develop a reliable tracking system for secondhand devices that ensures quality and transparency.
+          </p>
+        </div>
+        <div class="objective-card">
+          <h3>Web Application</h3>
+          <p>
+            Develop an intuitive interface showcasing available devices with complete history and specifications.
+          </p>
+        </div>
+        <div class="objective-card">
+          <h3>QR Code Integration</h3>
+          <p>
+            Implement QR code generation for each device, providing instant access to its complete history.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="contact-info">
+      <h2>Get In Touch</h2>
+      <div class="contact-grid">
+        <div class="contact-card">
+          <i class="fas fa-map-marker-alt"></i>
+          <h3>Location</h3>
+          <p>Vasha Tech Traders<br />Naivasha, Kenya</p>
+        </div>
+        <div class="contact-card">
+          <i class="fas fa-envelope"></i>
+          <h3>Email</h3>
+          <p>info@vashtech.co.ke</p>
+        </div>
+        <div class="contact-card">
+          <i class="fas fa-phone"></i>
+          <h3>Phone</h3>
+          <p>+254 7XX XXX XXX</p>
+        </div>
+        <div class="contact-card">
+          <i class="fas fa-clock"></i>
+          <h3>Business Hours</h3>
+          <p>Mon - Fri: 8:00 AM - 6:00 PM<br />Sat: 9:00 AM - 4:00 PM</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Shopping cart array to store items
+    let shoppingCart = [];
+
+    // Filter variables
+    let allDevices = [];
+    let currentFilter = 'all';
+    let currentSort = 'default';
+    let currentSearch = '';
+
+    // Load devices when page loads
+    document.addEventListener("DOMContentLoaded", function() {
+        loadDevicesForClients();
+        updateCartCount();
+        
+        // Navigation functionality
+        const links = document.querySelectorAll(".nav-bar a");
+        const sections = document.querySelectorAll("section");
+
+        // Show home by default, hide others
+        sections.forEach(sec => {
+            if (sec.id !== 'home') sec.style.display = "none";
+        });
+
+        links.forEach(link => {
+            link.addEventListener("click", function (e) {
+                e.preventDefault();
+
+                // Remove active class from all links
+                links.forEach(l => l.classList.remove('active'));
+                // Add active class to clicked link
+                this.classList.add('active');
+
+                // Hide all sections
+                sections.forEach(sec => sec.style.display = "none");
+
+                // Show the target section
+                const target = this.getAttribute("href");
+                document.querySelector(target).style.display = 'block';
+                
+                // If loading products section, refresh devices list
+                if (target === '#product') {
+                    loadDevicesForClients();
+                }
+            });
+        });
+    });
+
+    // Function to load devices for clients
+    function loadDevicesForClients() {
+        console.log("Loading devices for client page...");
+        
+        fetch('get_devices.php')
+            .then(response => response.json())
+            .then(devices => {
+                console.log("Devices received for client page:", devices);
+                
+                allDevices = devices; // Store all devices
+                applyFiltersAndSort(); // Apply initial filters
+                
+                // Add event listeners for filters and search
+                setupEventListeners();
+            })
+            .catch(error => {
+                console.error('Error loading devices:', error);
+                document.getElementById('devices-grid').innerHTML = '<p class="error-message">Error loading devices. Please try again later.</p>';
+            });
+    }
+
+    // Function to setup event listeners for filters and search
+    function setupEventListeners() {
+        // Category filter
+        const categoryFilter = document.getElementById('category-filter');
+        if (categoryFilter) {
+            categoryFilter.addEventListener('change', function() {
+                currentFilter = this.value;
+                applyFiltersAndSort();
+            });
+        }
+        
+        // Price sort
+        const priceSort = document.getElementById('price-sort');
+        if (priceSort) {
+            priceSort.addEventListener('change', function() {
+                currentSort = this.value;
+                applyFiltersAndSort();
+            });
+        }
+        
+        // Search input
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                currentSearch = this.value.toLowerCase();
+                applyFiltersAndSort();
+            });
+        }
+    }
+
+    // Function to apply all filters and sorting
+    function applyFiltersAndSort() {
+        let filteredDevices = [...allDevices];
+        
+        // Apply category filter
+        if (currentFilter !== 'all') {
+            filteredDevices = filteredDevices.filter(device => {
+                const deviceType = device.device_type ? device.device_type.toLowerCase() : 'laptop';
+                return deviceType === currentFilter;
+            });
+        }
+        
+        // Apply search filter
+        if (currentSearch) {
+            filteredDevices = filteredDevices.filter(device => {
+                const searchableText = `
+                    ${device.model || ''} 
+                    ${device.processor || ''} 
+                    ${device.ram || ''} 
+                    ${device.storage || ''}
+                    ${device.graphics_card || ''}
+                    ${device.device_type || ''}
+                `.toLowerCase();
+                
+                return searchableText.includes(currentSearch);
+            });
+        }
+        
+        // Apply sorting
+        if (currentSort !== 'default') {
+            filteredDevices.sort((a, b) => {
+                const priceA = parseFloat(a.price) || 0;
+                const priceB = parseFloat(b.price) || 0;
+                
+                if (currentSort === 'low-high') {
+                    return priceA - priceB;
+                } else if (currentSort === 'high-low') {
+                    return priceB - priceA;
+                }
+                return 0;
+            });
+        }
+        
+        // Display filtered devices
+        displayDevices(filteredDevices);
+    }
+
+    // Function to display devices in the grid
+    function displayDevices(devices) {
+        const grid = document.getElementById('devices-grid');
+        grid.innerHTML = '';
+        
+        if (devices.length === 0) {
+            grid.innerHTML = `
+                <div class="no-devices-message" style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: #7f8c8d;">
+                    <i class="fas fa-search" style="font-size: 3rem; margin-bottom: 1rem; color: #bdc3c7;"></i>
+                    <h3>No devices found</h3>
+                    <p>Try adjusting your search or filters</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Create device cards
+        const devicePromises = devices.map(device => {
+            return getDeviceImages(device.id).then(images => {
+                const deviceCard = `
+                    <div class="device-card" data-category="${device.device_type ? device.device_type.toLowerCase() : 'laptop'}" data-price="${device.price || 0}">
+                        <div class="device-image">
+                            <img src="${images.length > 0 ? images[0].image_path : 'default_laptop.png'}" alt="${device.model}" />
+                        </div>
+                        <h3>${device.model || 'No Model'}</h3>
+                        <p>${device.processor || 'N/A'} | ${device.ram || 'N/A'} RAM | ${device.storage || 'N/A'} Storage</p>
+                        <p class="price">KSh ${device.price ? Number(device.price).toLocaleString() : '0'}</p>
+                        <div class="device-actions">
+                            <button class="view-details-btn" onclick="showDeviceReport(${device.id})">View Details</button>
+                            <button class="warranty-details-btn" onclick="showWarrantyDetails(${device.id})">Warranty Details</button>
+                            <button class="add-to-cart-btn" onclick="addToCart(${device.id}, '${device.model.replace(/'/g, "\\'")}', ${device.price}, '${images.length > 0 ? images[0].image_path : 'default_laptop.png'}')">Add to Cart</button>
+                        </div>
+                    </div>
+                `;
+                return deviceCard;
+            });
+        });
+        
+        // Wait for all images to load then display
+        Promise.all(devicePromises).then(cards => {
+            grid.innerHTML = cards.join('');
+        });
+    }
+
+    // Function to get device images
+    function getDeviceImages(deviceId) {
+        return fetch(`get_device_images.php?device_id=${deviceId}`)
+            .then(response => response.json())
+            .then(data => {
+                return data.images || [];
+            })
+            .catch(error => {
+                console.error('Error loading device images:', error);
+                return [];
+            });
+    }
+
+    // Add to cart function
+    function addToCart(deviceId, deviceName, devicePrice, deviceImage) {
+        // Check if item already in cart
+        const existingItem = shoppingCart.find(item => item.id === deviceId);
+        
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            shoppingCart.push({
+                id: deviceId,
+                name: deviceName,
+                price: devicePrice,
+                image: deviceImage,
+                quantity: 1
+            });
+        }
+        
+        updateCartCount();
+        alert(`Added ${deviceName} to cart!`);
+        console.log('Cart updated:', shoppingCart);
+    }
+
+    // Remove from cart function
+    function removeFromCart(deviceId) {
+        shoppingCart = shoppingCart.filter(item => item.id !== deviceId);
+        updateCartCount();
+        renderCartItems();
+    }
+
+    // Update cart count in the navbar
+    function updateCartCount() {
+        const totalItems = shoppingCart.reduce((total, item) => total + item.quantity, 0);
+        document.getElementById('cart-count').textContent = totalItems;
+    }
+
+    // Render cart items in the modal
+    function renderCartItems() {
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotalElement = document.getElementById('cart-total');
+        
+        if (shoppingCart.length === 0) {
+            cartItemsContainer.innerHTML = '<p style="text-align: center; color: #666;">Your cart is empty</p>';
+            cartTotalElement.textContent = '0.00';
+            return;
+        }
+        
+        let cartHTML = '';
+        let total = 0;
+        
+        shoppingCart.forEach(item => {
+            const itemTotal = item.price * item.quantity;
+            total += itemTotal;
+            
+            cartHTML += `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-price">KSh ${item.price} x ${item.quantity} = KSh ${itemTotal.toFixed(2)}</div>
+                    </div>
+                    <button class="remove-from-cart" onclick="removeFromCart(${item.id})">Remove</button>
+                </div>
+            `;
+        });
+        
+        cartItemsContainer.innerHTML = cartHTML;
+        cartTotalElement.textContent = total.toFixed(2);
+    }
+
+    // Open cart modal
+    function openCart() {
+        renderCartItems();
+        document.getElementById('cartModal').style.display = "flex";
+    }
+
+    // Close cart modal
+    function closeCart() {
+        document.getElementById('cartModal').style.display = "none";
+    }
+
+    // Checkout function
+    function checkout() {
+        if (shoppingCart.length === 0) {
+            alert('Your cart is empty!');
+            return;
+        }
+        
+        alert('Proceeding to checkout with ' + shoppingCart.length + ' items. Total: KSh ' + 
+              shoppingCart.reduce((total, item) => total + (item.price * item.quantity), 0).toFixed(2));
+        // Here you would typically redirect to a checkout page or process payment
+    }
+
+    // Function to show device report in modal
+    function showDeviceReport(deviceId) {
+        const reportModal = document.getElementById('reportModal');
+        const reportContent = document.getElementById('report-content');
+        
+        // Show loading state
+        reportContent.innerHTML = `
+            <div class="report-loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading device report...</p>
+            </div>
+        `;
+        
+        reportModal.style.display = "flex";
+        
+        // Fetch device report
+        fetch(`get_device_report.php?device_id=${deviceId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.text();
+            })
+            .then(html => {
+                reportContent.innerHTML = html;
+                
+                // Simply remove the report-actions section that contains the buttons
+                const reportActions = reportContent.querySelector('.report-actions');
+                if (reportActions) {
+                    reportActions.remove();
+                }
+                
+                // Add event listeners for image thumbnails if they exist
+                const thumbnails = reportContent.querySelectorAll('.thumbnail');
+                const mainImage = reportContent.querySelector('.main-image img');
+                
+                if (thumbnails.length > 0 && mainImage) {
+                    thumbnails.forEach(thumb => {
+                        thumb.addEventListener('click', function() {
+                            // Update main image
+                            mainImage.src = this.querySelector('img').src;
+                            
+                            // Update active thumbnail
+                            thumbnails.forEach(t => t.classList.remove('active'));
+                            this.classList.add('active');
+                        });
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error loading device report:', error);
+                reportContent.innerHTML = `
+                    <div class="report-error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Error loading device report. Please try again.</p>
+                        <button onclick="showDeviceReport(${deviceId})" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">Retry</button>
+                    </div>
+                `;
+            });
+    }
+
+    // Function to close report modal
+    function closeReport() {
+        document.getElementById('reportModal').style.display = "none";
+    }
+
+    // Function to show warranty details - FIXED VERSION
+    function showWarrantyDetails(deviceId) {
+        const warrantyModal = document.getElementById('warrantyModal');
+        const warrantyContent = document.getElementById('warranty-content');
+        
+        // Show loading state
+        warrantyContent.innerHTML = `
+            <div class="report-loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading warranty details...</p>
+            </div>
+        `;
+        
+        warrantyModal.style.display = "flex";
+        
+        // Fetch warranty details
+        fetch(`get_warranty_details.php?device_id=${deviceId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success && data.warranty) {
+                    const warranty = data.warranty;
+                    const today = new Date();
+                    const endDate = new Date(warranty.end_date);
+                    const status = today <= endDate ? 'valid' : 'expired';
+                    
+                    let statusClass = 'warranty-valid';
+                    let statusText = 'Valid Warranty';
+                    
+                    if (status === 'expired') {
+                        statusClass = 'warranty-expired';
+                        statusText = 'Expired Warranty';
+                    }
+                    
+                    // Format warranty type for display
+                    const warrantyTypeDisplay = warranty.warranty_type_display || 
+                        (warranty.warranty_type === 'standard' ? 'Standard Warranty (3 Months)' :
+                         warranty.warranty_type === 'extended' ? 'Extended Warranty (6 Months)' :
+                         warranty.warranty_type === 'premium' ? 'Premium Warranty (1 Year)' :
+                         warranty.warranty_type);
+                    
+                    warrantyContent.innerHTML = `
+                        <div class="warranty-body">
+                            <div class="warranty-status ${statusClass}">
+                                ${statusText}
+                            </div>
+                            <div class="warranty-details-grid">
+                                <div class="warranty-detail-item">
+                                    <div class="warranty-detail-label">Customer Name</div>
+                                    <div class="warranty-detail-value">${warranty.customer_name || 'N/A'}</div>
+                                </div>
+                                <div class="warranty-detail-item">
+                                    <div class="warranty-detail-label">Product Model</div>
+                                    <div class="warranty-detail-value">${warranty.product_model || 'N/A'}</div>
+                                </div>
+                                <div class="warranty-detail-item">
+                                    <div class="warranty-detail-label">Serial Number</div>
+                                    <div class="warranty-detail-value">${warranty.serial_number || 'N/A'}</div>
+                                </div>
+                                <div class="warranty-detail-item">
+                                    <div class="warranty-detail-label">Warranty Type</div>
+                                    <div class="warranty-detail-value">${warrantyTypeDisplay}</div>
+                                </div>
+                                <div class="warranty-detail-item">
+                                    <div class="warranty-detail-label">Purchase Date</div>
+                                    <div class="warranty-detail-value">${warranty.purchase_date || 'N/A'}</div>
+                                </div>
+                                <div class="warranty-detail-item">
+                                    <div class="warranty-detail-label">Start Date</div>
+                                    <div class="warranty-detail-value">${warranty.start_date || 'N/A'}</div>
+                                </div>
+                                <div class="warranty-detail-item">
+                                    <div class="warranty-detail-label">End Date</div>
+                                    <div class="warranty-detail-value">${warranty.end_date || 'N/A'}</div>
+                                </div>
+                                <div class="warranty-detail-item warranty-full-width">
+                                    <div class="warranty-detail-label">Customer Email</div>
+                                    <div class="warranty-detail-value">${warranty.customer_email || 'N/A'}</div>
+                                </div>
+                                <div class="warranty-detail-item warranty-full-width">
+                                    <div class="warranty-detail-label">Customer Phone</div>
+                                    <div class="warranty-detail-value">${warranty.customer_phone || 'N/A'}</div>
+                                </div>
+                                <div class="warranty-detail-item warranty-full-width">
+                                    <div class="warranty-detail-label">Customer Address</div>
+                                    <div class="warranty-detail-value">${warranty.customer_address || 'N/A'}</div>
+                                </div>
+                            </div>
+                            <div class="warranty-actions">
+                                <button class="warranty-close-btn" onclick="closeWarranty()">Close</button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    warrantyContent.innerHTML = `
+                        <div class="warranty-body">
+                            <div class="warranty-status warranty-no-info">
+                                No Warranty Information Available
+                            </div>
+                            <p style="text-align: center; color: #7f8c8d; margin: 1rem 0;">
+                                This device does not have any warranty information registered.
+                            </p>
+                            <div class="warranty-actions">
+                                <button class="warranty-close-btn" onclick="closeWarranty()">Close</button>
+                            </div>
+                        </div>
+                    `;
+                }
+            })
+            .catch(error => {
+                console.error('Error loading warranty details:', error);
+                warrantyContent.innerHTML = `
+                    <div class="warranty-body">
+                        <div class="report-error">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <p>Error loading warranty details. Please try again.</p>
+                            <button onclick="showWarrantyDetails(${deviceId})" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer;">Retry</button>
+                        </div>
+                    </div>
+                `;
+            });
+    }
+
+    // Function to close warranty modal - ADDED MISSING FUNCTION
+    function closeWarranty() {
+        document.getElementById('warrantyModal').style.display = "none";
+    }
+
+    // Close modals when clicking outside the content
+    window.onclick = function(event) {
+        const cartModal = document.getElementById('cartModal');
+        const reportModal = document.getElementById('reportModal');
+        const warrantyModal = document.getElementById('warrantyModal');
+        
+        if (event.target === cartModal) {
+            closeCart();
+        }
+        if (event.target === reportModal) {
+            closeReport();
+        }
+        if (event.target === warrantyModal) {
+            closeWarranty();
+        }
+    }
+    
+  </script>
+</body>
+</html>

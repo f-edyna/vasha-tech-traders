@@ -1,0 +1,67 @@
+<html>
+<head>
+<title>REGISTRATION PAGE </title>
+<link rel="stylesheet" type="text/css" href="register.css">
+</head>
+<body>
+<div class="Register-container">
+<h2> Register here </h2>
+<form action="register.php" method="POST" id="register-form">
+<label class="label-style required"for="select_user">Register as:</label>
+<select id="select_user" name="select_user" required>
+<option value="">-- Select User Type --</option>
+<option value="admin">ADMIN</option>
+<option value="client">CLIENT</option>
+</select>
+
+<label class="label-style required"for="first_name">Enter First Name:</label>
+<input type="text" name="first_name" placeholder="please enter first name" required>
+
+<label class="label-style required"for="last_name">Enter Last Name:</label>
+<input type="text" name="last_name" placeholder="please enter last name" required>
+
+<label class="label-style required"for="email">Enter Email Address:</label>
+<input type="email" name="email" placeholder="user@example.com" required>
+
+<label class="label-style required"for="phone_number">Enter Phone Number:</label>
+<input type="tel" name="phone_number" pattern="(\+254|0)[0-9]{9}" placeholder="+254712345678 or 0712345678" required>
+
+<label class="label-style required"for="password">Enter Password:</label>
+<input type="password" name="password" placeholder="Please enter Password" required>
+
+<label class="label-style required"for="confirm_password">Repeat Password:</label>
+<input type="password" name="confirm_password" placeholder="Please Confirm Password" required>
+
+<input type="submit" value="REGISTER">
+<p> Already have an account? <a href="login.html">Login </a> </p>
+</form>
+</div>
+
+<script>
+// Client-side validation
+document.getElementById('register-form').addEventListener('submit', function(e) {
+    const password = document.querySelector('input[name="password"]').value;
+    const confirmPassword = document.querySelector('input[name="confirm_password"]').value;
+    const userType = document.querySelector('select[name="select_user"]').value;
+    
+    if (!userType) {
+        alert('Please select user type (Admin or Client)');
+        e.preventDefault();
+        return;
+    }
+    
+    if (password !== confirmPassword) {
+        alert('Passwords do not match!');
+        e.preventDefault();
+        return;
+    }
+    
+    if (password.length < 6) {
+        alert('Password must be at least 6 characters long!');
+        e.preventDefault();
+        return;
+    }
+});
+</script>
+</body>
+</html>

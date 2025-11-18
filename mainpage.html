@@ -1,0 +1,878 @@
+<html>
+<head>
+<title>MAIN PAGE </title>
+<link rel="stylesheet"type="text/css"href="mainpage.css">
+</head>
+<body>
+<div class="content">
+<!--sidebar menu design -->
+<div class="sidebar">
+<ul>
+<li><a href="#dashboard">DASHBOARD </a></li>
+<li><a href="#add-device">ADD DEVICE </a></li>
+<li><a href="#report">REPORT </a></li>
+<li><a href="#support">WARRANTY & SUPPORT </a></li>
+</ul>
+<input type="button"id ="logout-btn" value="LOG OUT" onclick="window.location.href='logout.php'" >
+</div>
+
+<!--Dashboard design -->
+<section id="dashboard">
+<h1> ADMIN DASHBOARD  </h1>
+<form id="Device-form">
+<label for="devices"> SELECT DEVICE:</label>
+<select id="devices" name="laptop" onchange="loadDeviceDetails(this.value)">
+<option value="">Loading devices.... </option>
+</select>
+<br>
+<!--text area for device-->
+<textarea id="details" rows="8" cols="7"readonly>
+DEVICE MODEL/NAME:
+SERIAL NUMBER:
+CONDITION:
+PRICE:
+PROCESSOR:
+RAM:
+STORAGE:
+</textarea>
+<!--laptop's image-->
+<div class="image-catalogue">
+  <img id="catalogue-img" src="default_laptop.png" alt="Device Image" style="max-width:300px; max-height: 200px;">
+  
+  <div class="controls">
+    <button type="button" onclick="prevImage()">Prev</button>
+    <button type="button" onclick="nextImage()">Next</button>
+  </div>
+</div>
+</form>
+<br>
+</section>
+<!--New Devices page design -->
+<section id="add-device">
+<h1>ADD NEW DEVICE</h1>
+<form id="Add-form" onsubmit="addDevice(event)">
+<!--device details-->
+<h2>1. DEVICE DETAILS</h2>
+<label for="type">DEVICE TYPE</label>
+<select id="type" name="type" required>
+<option value="Laptop">LAPTOP</option>
+<option value="Desktop">DESKTOP</option>
+</select>
+<br>
+
+<label for="model">MODEL</label>
+<input type="text" id="model" name="model" placeholder="Enter Laptop's Model" required>
+
+<label for="serial_number">SERIAL NUMBER</label>
+<input type="text" id="serial_number" name="serial_number" placeholder="Enter Serial Number" required>
+
+<label for="price">PRICE</label>
+<input type="number" id="price" name="price" min="0" step="0.01" placeholder="Enter Laptop's Price" required>
+<br>
+
+<!--specification design-->
+<h2>2. DEVICE SPECIFICATIONS</h2>
+<label for="processor">PROCESSOR</label>
+<input type="text" id="processor" name="processor" placeholder="Enter Processor details" required>
+
+<label for="ram">RAM</label>
+<input type="text" id="ram" name="ram" placeholder="Enter RAM details" required>
+
+<label for="storage">STORAGE</label>
+<input type="text" id="storage" name="storage" placeholder="Enter Storage details" required>
+
+<label for="graphics_card">GRAPHICS CARD</label>
+<input type="text" id="graphics_card" name="graphics_card" placeholder="Enter Graphics Card details" required>
+<br>
+
+<!--device's condition-->
+<label for="device_condition">LAPTOP'S CONDITION</label>
+<select id="device_condition" name="device_condition" required>
+<option value="New">NEW</option>
+<option value="Used">USED</option>
+<option value="Refurbished">REFURBISHED</option>
+</select>
+<br>
+
+<label for="additional_details">ADDITIONAL DETAILS</label>
+<textarea id="additional_details" name="additional_details" rows="10" cols="30" placeholder="write any additional details here...."></textarea>
+<br>
+
+<!--Image upload -->
+<label for="face_image">UPLOAD FACE IMAGE</label>
+<input type="file" id="face_image" name="face_image" accept="image/*">
+<button type="button" onclick="clearImage('face_image')">Clear Image</button>
+<br>
+
+<label for="back_image">UPLOAD BACK IMAGE</label>
+<input type="file" id="back_image" name="back_image" accept="image/*">
+<button type="button" onclick="clearImage('back_image')">Clear Image</button>
+<br>
+
+<label for="side_image">UPLOAD SIDE IMAGE</label>
+<input type="file" id="side_image" name="side_image" accept="image/*">
+<button type="button" onclick="clearImage('side_image')">Clear Image</button>
+<br>
+
+<!--device history-->
+<h2>3. DEVICE HISTORY</h2>
+<label>PREVIOUS OWNER DETAILS</label><br>
+
+<label for="prev_first_name">FIRST NAME</label>
+<input type="text" id="prev_first_name" name="prev_first_name" placeholder="Enter First Name">
+
+<label for="prev_last_name">LAST NAME</label>
+<input type="text" id="prev_last_name" name="prev_last_name" placeholder="Enter Last Name">
+
+<label for="prev_id_number">ID NUMBER</label>
+<input type="text" id="prev_id_number" name="prev_id_number" placeholder="Enter ID Number">
+
+<label for="prev_phone">PHONE NUMBER</label>
+<input type="tel" id="prev_phone" name="prev_phone" placeholder="+254700000000" pattern="^\+?[0-9]{10,15}$">
+
+<label for="prev_usage">HOW WAS THE DEVICE PREVIOUSLY USED?</label>
+<select id="prev_usage" name="prev_usage">
+<option value="heavy use">Heavily Used</option>
+<option value="light use">Lightly Used</option>
+<option value="moderate use">Moderately Used</option>
+</select>
+<br>
+
+<label for="repair_history">DESCRIPTION ON THE WORK DONE BY THE DEVICE AND REPAIRS DONE (if any)</label><br>
+<textarea id="repair_history" name="repair_history" rows="10" cols="30" placeholder="give a brief description on how the device was used and list any repairs done to it"></textarea>
+
+<div class="button-container">
+  <input type="submit" id="save-btn" value="Save Details">
+</div>
+</form>
+</section>
+
+<!--Device report page design-->
+<section id="report">
+<h1> FULL REPORT ON DEVICE  </h1>
+<!--device details-->
+<h3>1. DEVICE DETAILS </h3>
+<form id="reportimage-form">
+<img src="laptop.png" height="300px" width="300px">
+</form>
+<div class="report-container">
+<form id="report1-form">
+<label for="model:"> MODEL:.</label>
+<label for="serial number:"> SERIAL NUMBER:.</label>
+<label for="processor:"> PROCESSOR:.</label>
+<label for="ram:"> RAM:.</label>
+<label for="storage:"> STORAGE:.</label>
+<label for="graphics card:"> GRAPHICS CARD:.</label>
+<label for="condition:"> LAPTOP'S CONDITION:.</label>
+<label for="usage:"> PREVIOUS USAGE:.</label>
+</form>
+
+</div>
+<!--owners details-->
+<h3>2. PREVIOUS OWNER DETAILS </h3>
+<form id="report2-form">
+<label for="first name:"> FIRST NAME:.</label>
+<label for="last name:"> LAST NAME:.</label>
+<label for="id number:"> ID NUMBER:.</label>
+<label for="phone number:"> PHONE NUMBER:.</label>
+</form>
+<!--repairs done-->
+<h3>3. REPAIRS DONE AND ANY OTHER ADDITIONAL DETAILS </h3>
+<form id="report3-form">
+<textarea id="repairs" rows="10" cols="30"readonly>
+repairs done 
+</textarea>
+</form>
+<br>
+<!--buttons-->
+<div class="button-container">
+<input type="button" id="download-btn" value="Download" onclick="downloadReport()">
+<input type="button" id="print-btn" value="Print" onclick="printReport()">
+</div>
+</section>
+<!--warranty and support-->
+<section id="support">
+    <h1> WARRANTY AND SUPPORT  </h1>
+    
+    <h4> PRODUCT INFORMATION </h4>
+    <form id="warranty-main-form">
+        <label for="customer_name"> CUSTOMER'S NAME</label>
+        <input type="text" id="customer_name" name="customer_name" placeholder="Enter customer's name" required>
+        
+        <label for="product_model"> PRODUCT MODEL</label>
+        <input type="text" id="product_model" name="product_model" placeholder="Enter device model" required>
+        
+        <label for="serial_number_warranty"> SERIAL NUMBER</label>
+        <input type="text" id="serial_number_warranty" name="serial_number" placeholder="Enter device serial number" required>
+        
+        <label for="purchase_date"> PURCHASE DATE</label>
+        <input type="date" id="purchase_date" name="purchase_date" required>
+    </form>
+
+    <h4> WARRANTY PERIOD </h4>
+    <form id="warranty-period-form">
+        <label for="start_date"> START DATE</label>
+        <input type="date" id="start_date" name="start_date" required>
+        
+        <label for="end_date"> END DATE</label>
+        <input type="date" id="end_date" name="end_date" required>
+        
+        <label for="warranty_type"> WARRANTY TYPE</label>
+        <select id="warranty_type" name="warranty_type" required>
+            <option value="">Select Warranty Type</option>
+            <option value="standard">Standard Warranty (3 Months)</option>
+            <option value="extended">Extended Warranty (6 Months)</option>
+            <option value="premium">Premium Warranty (1 Year)</option>
+        </select>
+    </form>
+
+    <h4> CUSTOMER CONTACT INFORMATION </h4>
+    <form id="contact-form">
+        <label for="customer_email"> EMAIL ADDRESS</label>
+        <input type="email" id="customer_email" name="customer_email" placeholder="Enter customer's email">
+        
+        <label for="customer_phone"> PHONE NUMBER</label>
+        <input type="tel" id="customer_phone" name="customer_phone" placeholder="+254700000000" pattern="^\+?[0-9]{10,15}$" required>
+        
+        <label for="customer_address"> ADDRESS</label>
+        <textarea id="customer_address" name="customer_address" rows="3" placeholder="Enter customer's address"></textarea>
+    </form>
+
+    <h4> PROCEDURES AND COVERAGE DETAILS </h4>
+    <div id="rules-form">
+        <h5> THE WARRANTY WILL ONLY COVER:</h5>
+        <p>1. Repair Defects caused by the shop</p>
+        <p>2. If a component replaced/repaired by the shop fails during normal use</p>
+        <p>3. Manufacturing Defects</p>
+        
+        <h5> THE SHOP WILL NOT COVER FOR:</h5>
+        <p>1. Physical damages like spills</p>
+        <p>2. Normal wear and tear will not be covered</p>
+        <p>3. If the device was repaired somewhere else other than the authorized repair center</p>
+        
+        <h5> WARRANTY CLAIM FORM PROCEDURE;</h5>
+        <p>1. Call or Visit the shop</p>
+        <p>2. Provide the receipt you were given when u purchased the device</p>
+        <p>3. Provide the technician with the valid warranty card</p>
+        <p>4. Submit the device for defective inspection</p>
+        
+        <div class="terms-agreement">
+            <input type="checkbox" id="agree_terms" name="agree_terms" required>
+            <label for="agree_terms">I have read and agree to the warranty terms and conditions</label>
+        </div>
+    </div>
+
+    <div class="button-container">
+        <input type="button" id="submit-btn" value="Submit" onclick="saveWarranty()">
+    </div>
+
+    <!-- Message container for feedback -->
+    <div id="warranty-message" style="display: none; margin-top: 1rem; padding: 1rem; border-radius: 5px;"></div>
+</section>
+</div>
+
+<script>
+// Array of default images (fallback)
+const defaultImages = ["default_laptop.png", "laptop2.png", "laptop3.png"];
+let currentIndex = 0;
+
+// Load devices when page loads
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("🏠 DOM loaded, initializing page...");
+    loadDevices();
+    
+    // Navigation functionality
+    const links = document.querySelectorAll(".sidebar a");
+    const sections = document.querySelectorAll("section");
+
+    // Show dashboard by default, hide others
+    sections.forEach(sec => {
+        if (sec.id !== 'dashboard') sec.style.display = "none";
+    });
+
+    links.forEach(link => {
+        link.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            // Hide all sections
+            sections.forEach(sec => sec.style.display = "none");
+
+            // Show the target section
+            const target = this.getAttribute("href");
+            document.querySelector(target).style.display = 'block';
+            
+            // If loading dashboard, refresh devices list
+            if (target === '#dashboard') {
+                console.log("🔄 Refreshing devices list...");
+                loadDevices();
+            }
+        });
+    });
+
+    // Initialize warranty functionality
+    setDefaultWarrantyDates();
+    autoFillFromDevice();
+});
+
+// Function to load devices into dropdown
+function loadDevices() {
+    console.log("🚀 Loading devices from database...");
+    
+    fetch('get_devices.php')
+        .then(response => {
+            console.log("📡 Response status:", response.status);
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(devices => {
+            console.log("✅ Devices loaded successfully:", devices);
+            const select = document.getElementById('devices');
+            
+            if (!select) {
+                console.error("❌ ERROR: Could not find dropdown element with id 'devices'");
+                return;
+            }
+            
+            // Clear existing options
+            select.innerHTML = '<option value="">-- Select a Device --</option>';
+            
+            if (devices.length === 0) {
+                console.log("ℹ️ No devices found in database");
+                const option = document.createElement('option');
+                option.value = "";
+                option.textContent = "No devices found in database";
+                select.appendChild(option);
+            } else {
+                console.log(`📦 Adding ${devices.length} devices to dropdown`);
+                devices.forEach(device => {
+                    const option = document.createElement('option');
+                    option.value = device.id;
+                    option.textContent = `${device.model} - ${device.serial_number}`;
+                    select.appendChild(option);
+                });
+                console.log("✅ Dropdown populated successfully");
+            }
+        })
+        .catch(error => {
+            console.error('❌ Error loading devices:', error);
+            const select = document.getElementById('devices');
+            if (select) {
+                select.innerHTML = '<option value="">Error loading devices</option>';
+            }
+        });
+}
+
+// Function to load device details when device is selected
+function loadDeviceDetails(deviceId) {
+    console.log("Loading details for device ID:", deviceId);
+    
+    if (!deviceId) {
+        // Reset to default if no device selected
+        document.getElementById('details').value = 
+            "DEVICE MODEL/NAME:\nSERIAL NUMBER:\nCONDITION:\nPRICE:\nPROCESSOR:\nRAM:\nSTORAGE:";
+        document.getElementById('catalogue-img').src = "default_laptop.png";
+        // Clear report section
+        clearReportSection();
+        return;
+    }
+    
+    fetch(`get_device_details.php?device_id=${deviceId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Device details response:", data);
+            
+            if (data.success && data.device) {
+                const device = data.device;
+                
+                // Update device details textarea with all information
+                document.getElementById('details').value = 
+                    `DEVICE MODEL/NAME: ${device.model}\n` +
+                    `SERIAL NUMBER: ${device.serial_number}\n` +
+                    `CONDITION: ${device.device_condition}\n` +
+                    `PRICE: ksh ${device.price}\n` +
+                    `PROCESSOR: ${device.processor}\n` +
+                    `RAM: ${device.ram}\n` +
+                    `STORAGE: ${device.storage}`;
+                
+                // Update device image - use first image if available, otherwise default
+                if (data.images && data.images.length > 0) {
+                    document.getElementById('catalogue-img').src = data.images[0].image_path;
+                    console.log("Setting image to:", data.images[0].image_path);
+                } else {
+                    document.getElementById('catalogue-img').src = "default_laptop.png";
+                    console.log("No images found, using default");
+                }
+                
+                // Update the report section with device data
+                updateReportSection(device, data.images);
+                
+            } else {
+                console.error("Error in response:", data.error);
+                alert(data.error || 'Failed to load device details');
+            }
+        })
+        .catch(error => {
+            console.error('Error loading device details:', error);
+            alert('Error loading device details: ' + error.message);
+        });
+}
+
+// Function to update the report section with device data
+function updateReportSection(device, images) {
+    // Update device details in report section
+    document.querySelector('#report1-form label[for="model:"]').innerHTML = `MODEL: <strong>${device.model || 'N/A'}</strong>`;
+    document.querySelector('#report1-form label[for="serial number:"]').innerHTML = `SERIAL NUMBER: <strong>${device.serial_number || 'N/A'}</strong>`;
+    document.querySelector('#report1-form label[for="processor:"]').innerHTML = `PROCESSOR: <strong>${device.processor || 'N/A'}</strong>`;
+    document.querySelector('#report1-form label[for="ram:"]').innerHTML = `RAM: <strong>${device.ram || 'N/A'}</strong>`;
+    document.querySelector('#report1-form label[for="storage:"]').innerHTML = `STORAGE: <strong>${device.storage || 'N/A'}</strong>`;
+    document.querySelector('#report1-form label[for="graphics card:"]').innerHTML = `GRAPHICS CARD: <strong>${device.graphics_card || 'N/A'}</strong>`;
+    document.querySelector('#report1-form label[for="condition:"]').innerHTML = `LAPTOP'S CONDITION: <strong>${device.device_condition || 'N/A'}</strong>`;
+    document.querySelector('#report1-form label[for="usage:"]').innerHTML = `PREVIOUS USAGE: <strong>${device.prev_usage || 'N/A'}</strong>`;
+    
+    // Update previous owner details
+    document.querySelector('#report2-form label[for="first name:"]').innerHTML = `FIRST NAME: <strong>${device.prev_first_name || 'N/A'}</strong>`;
+    document.querySelector('#report2-form label[for="last name:"]').innerHTML = `LAST NAME: <strong>${device.prev_last_name || 'N/A'}</strong>`;
+    document.querySelector('#report2-form label[for="id number:"]').innerHTML = `ID NUMBER: <strong>${device.prev_id_number || 'N/A'}</strong>`;
+    document.querySelector('#report2-form label[for="phone number:"]').innerHTML = `PHONE NUMBER: <strong>${device.prev_phone || 'N/A'}</strong>`;
+    
+    // Update repairs and additional details
+    let repairText = "No repairs recorded.";
+    if (device.repair_history) {
+        repairText = device.repair_history;
+    } else if (device.additional_details) {
+        repairText = device.additional_details;
+    }
+    document.getElementById('repairs').value = repairText;
+    
+    // Update report image
+    if (images && images.length > 0) {
+        document.querySelector('#reportimage-form img').src = images[0].image_path;
+    } else {
+        document.querySelector('#reportimage-form img').src = "laptop.png";
+    }
+    
+    console.log("Report section updated with device data");
+}
+
+// Function to clear the report section
+function clearReportSection() {
+    // Clear device details
+    document.querySelector('#report1-form label[for="model:"]').innerHTML = 'MODEL:.';
+    document.querySelector('#report1-form label[for="serial number:"]').innerHTML = 'SERIAL NUMBER:.';
+    document.querySelector('#report1-form label[for="processor:"]').innerHTML = 'PROCESSOR:.';
+    document.querySelector('#report1-form label[for="ram:"]').innerHTML = 'RAM:.';
+    document.querySelector('#report1-form label[for="storage:"]').innerHTML = 'STORAGE:.';
+    document.querySelector('#report1-form label[for="graphics card:"]').innerHTML = 'GRAPHICS CARD:.';
+    document.querySelector('#report1-form label[for="condition:"]').innerHTML = 'LAPTOP\'S CONDITION:.';
+    document.querySelector('#report1-form label[for="usage:"]').innerHTML = 'PREVIOUS USAGE:.';
+    
+    // Clear previous owner details
+    document.querySelector('#report2-form label[for="first name:"]').innerHTML = 'FIRST NAME:.';
+    document.querySelector('#report2-form label[for="last name:"]').innerHTML = 'LAST NAME:.';
+    document.querySelector('#report2-form label[for="id number:"]').innerHTML = 'ID NUMBER:.';
+    document.querySelector('#report2-form label[for="phone number:"]').innerHTML = 'PHONE NUMBER:.';
+    
+    // Clear repairs textarea
+    document.getElementById('repairs').value = 'repairs done';
+    
+    // Reset image
+    document.querySelector('#reportimage-form img').src = "laptop.png";
+}
+
+// Image navigation functions (for default images)
+function showImage(index) {
+    document.getElementById("catalogue-img").src = defaultImages[index];
+}
+
+function nextImage() {
+    currentIndex = (currentIndex + 1) % defaultImages.length;
+    showImage(currentIndex);
+}
+
+function prevImage() {
+    currentIndex = (currentIndex - 1 + defaultImages.length) % defaultImages.length;
+    showImage(currentIndex);
+}
+
+// Function to clear image inputs
+function clearImage(inputId){
+    document.getElementById(inputId).value = '';
+}
+
+// Function to handle device addition form submission
+function addDevice(event) {
+    event.preventDefault();
+    console.log("Adding new device...");
+    
+    // Get all form data
+    const formData = new FormData();
+    
+    // Add all form fields manually to ensure correct names
+    formData.append('type', document.getElementById('type').value);
+    formData.append('model', document.getElementById('model').value);
+    formData.append('serial_number', document.getElementById('serial_number').value);
+    formData.append('price', document.getElementById('price').value);
+    formData.append('processor', document.getElementById('processor').value);
+    formData.append('ram', document.getElementById('ram').value);
+    formData.append('storage', document.getElementById('storage').value);
+    formData.append('graphics_card', document.getElementById('graphics_card').value);
+    formData.append('device_condition', document.getElementById('device_condition').value);
+    formData.append('additional_details', document.getElementById('additional_details').value);
+    formData.append('prev_first_name', document.getElementById('prev_first_name').value);
+    formData.append('prev_last_name', document.getElementById('prev_last_name').value);
+    formData.append('prev_id_number', document.getElementById('prev_id_number').value);
+    formData.append('prev_phone', document.getElementById('prev_phone').value);
+    formData.append('prev_usage', document.getElementById('prev_usage').value);
+    formData.append('repair_history', document.getElementById('repair_history').value);
+    
+    // Add files if they exist
+    const faceImage = document.getElementById('face_image').files[0];
+    const backImage = document.getElementById('back_image').files[0];
+    const sideImage = document.getElementById('side_image').files[0];
+    
+    if (faceImage) formData.append('face_image', faceImage);
+    if (backImage) formData.append('back_image', backImage);
+    if (sideImage) formData.append('side_image', sideImage);
+    
+    console.log("Form data prepared, sending to server...");
+    
+    fetch('add_device.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log("Server response:", result);
+        if (result.success) {
+            alert('✅ ' + result.message + '\nDevice ID: ' + result.device_id);
+            // Reload the devices dropdown to include the new device
+            loadDevices();
+            // Reset the form
+            document.getElementById('Add-form').reset();
+        } else {
+            alert('❌ ' + result.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('❌ Error adding device. Check console for details.');
+    });
+}
+
+// Function to download report as PDF
+function downloadReport() {
+    const deviceSelect = document.getElementById('devices');
+    const deviceId = deviceSelect.value;
+    
+    if (!deviceId) {
+        alert('Please select a device first');
+        return;
+    }
+    
+    // Simple implementation - you can enhance this with a proper PDF generator
+    const reportContent = document.querySelector('#report').innerHTML;
+    const blob = new Blob([reportContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `device_report_${deviceId}.html`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+// Function to print report
+function printReport() {
+    const deviceSelect = document.getElementById('devices');
+    const deviceId = deviceSelect.value;
+ 
+    if (!deviceId) {
+        alert('Please select a device first');
+        return;
+    }
+    
+    window.print();
+}
+
+// ========== WARRANTY FUNCTIONS ========== //
+
+// Validate warranty form
+function validateWarrantyForm() {
+    const requiredFields = [
+        'customer_name', 'product_model', 'serial_number_warranty', 
+        'purchase_date', 'start_date', 'end_date', 'warranty_type', 
+        'customer_phone'
+    ];
+    
+    for (const fieldId of requiredFields) {
+        const field = document.getElementById(fieldId);
+        if (!field || !field.value.trim()) {
+            const fieldName = getFieldDisplayName(fieldId);
+            alert(`Please fill in the ${fieldName} field`);
+            if (field) field.focus();
+            return false;
+        }
+    }
+    
+    // Validate dates
+    const startDate = new Date(document.getElementById('start_date').value);
+    const endDate = new Date(document.getElementById('end_date').value);
+    const purchaseDate = new Date(document.getElementById('purchase_date').value);
+    
+    if (startDate >= endDate) {
+        alert('End date must be after start date');
+        document.getElementById('end_date').focus();
+        return false;
+    }
+    
+    if (purchaseDate > startDate) {
+        alert('Start date cannot be before purchase date');
+        document.getElementById('start_date').focus();
+        return false;
+    }
+    
+    // Validate phone number format
+    const phone = document.getElementById('customer_phone').value;
+    const phoneRegex = /^\+?[0-9]{10,15}$/;
+    if (!phoneRegex.test(phone)) {
+        alert('Please enter a valid phone number (10-15 digits, + optional)');
+        document.getElementById('customer_phone').focus();
+        return false;
+    }
+    
+    return true;
+}
+
+// Get display name for form fields
+function getFieldDisplayName(fieldId) {
+    const names = {
+        'customer_name': "customer's name",
+        'product_model': "product model",
+        'serial_number_warranty': "serial number",
+        'purchase_date': "purchase date",
+        'start_date': "start date",
+        'end_date': "end date",
+        'warranty_type': "warranty type",
+        'customer_phone': "phone number"
+    };
+    return names[fieldId] || fieldId;
+}
+
+// Show warranty message
+function showWarrantyMessage(message, type) {
+    const messageDiv = document.getElementById('warranty-message');
+    if (!messageDiv) {
+        console.error('Warranty message div not found');
+        alert(message); // Fallback to alert
+        return;
+    }
+    
+    messageDiv.textContent = message;
+    messageDiv.style.display = 'block';
+    messageDiv.style.backgroundColor = type === 'success' ? '#d4edda' : '#f8d7da';
+    messageDiv.style.color = type === 'success' ? '#155724' : '#721c24';
+    messageDiv.style.border = type === 'success' ? '1px solid #c3e6cb' : '1px solid #f5c6cb';
+    messageDiv.style.padding = '1rem';
+    messageDiv.style.borderRadius = '5px';
+    messageDiv.style.marginTop = '1rem';
+    
+    // Auto-hide success messages after 5 seconds
+    if (type === 'success') {
+        setTimeout(() => {
+            messageDiv.style.display = 'none';
+        }, 5000);
+    }
+}
+
+// Clear warranty form
+function clearWarrantyForm() {
+    const fieldsToClear = [
+        'customer_name', 'product_model', 'serial_number_warranty',
+        'purchase_date', 'start_date', 'end_date', 'warranty_type',
+        'customer_email', 'customer_phone', 'customer_address'
+    ];
+    
+    fieldsToClear.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            if (field.type === 'select-one') {
+                field.selectedIndex = 0;
+            } else {
+                field.value = '';
+            }
+        }
+    });
+    
+    // Uncheck terms agreement
+    const agreeTerms = document.getElementById('agree_terms');
+    if (agreeTerms) {
+        agreeTerms.checked = false;
+    }
+    
+    console.log('Warranty form cleared');
+}
+
+// Set default dates for warranty
+function setDefaultWarrantyDates() {
+    const today = new Date().toISOString().split('T')[0];
+    const purchaseDate = document.getElementById('purchase_date');
+    const startDate = document.getElementById('start_date');
+    
+    if (purchaseDate && !purchaseDate.value) {
+        purchaseDate.value = today;
+    }
+    
+    if (startDate && !startDate.value) {
+        startDate.value = today;
+    }
+    
+    // Set end date based on warranty type
+    const warrantyType = document.getElementById('warranty_type');
+    const endDate = document.getElementById('end_date');
+    
+    if (warrantyType && endDate) {
+        warrantyType.addEventListener('change', function() {
+            if (startDate && startDate.value) {
+                const start = new Date(startDate.value);
+                const end = new Date(start);
+                
+                switch(this.value) {
+                    case 'standard':
+                        end.setMonth(end.getMonth() + 3);
+                        break;
+                    case 'extended':
+                        end.setMonth(end.getMonth() + 6);
+                        break;
+                    case 'premium':
+                        end.setFullYear(end.getFullYear() + 1);
+                        break;
+                    default:
+                        return;
+                }
+                
+                endDate.valueAsDate = end;
+            }
+        });
+    }
+}
+
+// Auto-fill product model from devices dropdown
+function autoFillFromDevice() {
+    const deviceSelect = document.getElementById('devices');
+    const serialInput = document.getElementById('serial_number_warranty');
+    const modelInput = document.getElementById('product_model');
+    
+    if (deviceSelect && serialInput && modelInput) {
+        deviceSelect.addEventListener('change', function() {
+            if (this.value) {
+                // Extract model and serial from dropdown text (format: "Model - Serial")
+                const selectedText = this.options[this.selectedIndex].text;
+                const parts = selectedText.split(' - ');
+                
+                if (parts.length >= 2) {
+                    modelInput.value = parts[0].trim();
+                    serialInput.value = parts[1].trim();
+                }
+            }
+        });
+    }
+}
+
+// Enhanced saveWarranty function with better error handling
+function saveWarranty() {
+    console.log("Saving warranty details...");
+    
+    try {
+        // Validate form
+        if (!validateWarrantyForm()) {
+            return;
+        }
+        
+        // Check terms agreement
+        if (!document.getElementById('agree_terms').checked) {
+            showWarrantyMessage('❌ Please agree to the warranty terms and conditions', 'error');
+            document.getElementById('agree_terms').focus();
+            return;
+        }
+        
+        // Collect all form data
+        const formData = new FormData();
+        
+        // Add all warranty fields
+        formData.append('customer_name', document.getElementById('customer_name').value);
+        formData.append('product_model', document.getElementById('product_model').value);
+        formData.append('serial_number', document.getElementById('serial_number_warranty').value);
+        formData.append('purchase_date', document.getElementById('purchase_date').value);
+        formData.append('start_date', document.getElementById('start_date').value);
+        formData.append('end_date', document.getElementById('end_date').value);
+        formData.append('warranty_type', document.getElementById('warranty_type').value);
+        formData.append('customer_email', document.getElementById('customer_email').value);
+        formData.append('customer_phone', document.getElementById('customer_phone').value);
+        formData.append('customer_address', document.getElementById('customer_address').value);
+        
+        // Include the checkbox value
+        formData.append('agree_terms', document.getElementById('agree_terms').checked ? '1' : '0');
+        
+        console.log("Sending warranty data to server...");
+        console.log("Form data:", {
+            customer_name: document.getElementById('customer_name').value,
+            product_model: document.getElementById('product_model').value,
+            serial_number: document.getElementById('serial_number_warranty').value,
+            warranty_type: document.getElementById('warranty_type').value,
+            terms_agreed: document.getElementById('agree_terms').checked
+        });
+        
+        // Show loading state
+        const submitBtn = document.getElementById('submit-btn');
+        const originalText = submitBtn.value;
+        submitBtn.value = 'Saving...';
+        submitBtn.disabled = true;
+        
+        // Send data to server
+        fetch('save_warranty.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            console.log("Response status:", response.status);
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(result => {
+            console.log("Server response:", result);
+            if (result.success) {
+                showWarrantyMessage('✅ ' + result.message + ' (Warranty ID: ' + result.warranty_id + ')', 'success');
+                // Clear form after successful save
+                clearWarrantyForm();
+            } else {
+                showWarrantyMessage('❌ ' + result.message, 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showWarrantyMessage('❌ Error saving warranty. Please check your connection and try again.', 'error');
+        })
+        .finally(() => {
+            // Restore button state
+            submitBtn.value = originalText;
+            submitBtn.disabled = false;
+        });
+        
+    } catch (error) {
+        console.error('Unexpected error in saveWarranty:', error);
+        showWarrantyMessage('❌ An unexpected error occurred. Please try again.', 'error');
+    }
+}
+</script>
+</body>
+</html>

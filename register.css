@@ -1,0 +1,109 @@
+body{
+	align-content:center;
+	font-family: Arial, sans-serif;
+    background-image:url('register.jpg'); 
+    background-size: cover;
+}
+.register-container{
+	width:400px;
+	margin:0px auto;
+	padding:10px;
+	background-color:none;
+	border:3px solid lightgreen;
+	border-radius:10px;	
+	box-shadow: 0 0 10px;
+}
+ select {
+  width:100%;
+  padding: 10px;
+  gap: 10px;
+  font-size: 16px;
+  border: 1px solid lightgreen;
+  border-radius: 10px;
+  outline: none;
+
+}
+h1{
+	text-align:center;
+	margin:0px auto;
+	color:red;
+	font-family:Arial,sans-serif;
+	padding:10px;
+	padding-top:0px;
+	font-size:25;
+	font-weight:bold;
+}
+h2{
+	text-align:center;
+	margin:0px auto;
+	color:blue;
+	font-family:Arial,sans-serif;
+	padding:10px;
+	padding-top:0px;
+	font-size:35;
+	font-weight:bold;
+}
+label{
+	display:block;
+	font-weight:bold;
+	text-align:center;
+	padding:10px;
+	margin-bottom:10px;
+}
+.register-container input[type="text"],.register-container input[type="password"]{
+	width:100%;
+	height:40px;
+	padding:10px;
+	border:1px solid #ccc;
+	border-color:lightgreen;
+	border-radius:10px;
+}
+.register-container input[type="email"],.register-container input[type="tel"]{
+	width:100%;
+	height:40px;
+	padding:10px;
+	border:1px solid #ccc;
+	border-color:lightgreen;
+	border-radius:10px;
+}
+.register-container input[placeholder="please enter first name"],.register-container input[placeholder="please enter last name"]{
+text-align:center;
+font-size:17px;
+}
+.register-container input[placeholder="user@example.com"],.register-container input[placeholder="+254712345678"]{
+text-align:center;
+font-size:17px;
+}
+.register-container input[placeholder="Please enter Password"],.register-container input[placeholder="Please Confirm Password"]{
+text-align:center;
+font-size:17px;
+}
+.required::after{
+	content:"*";
+	color:red;
+	font-weight:bold;
+	font-size:22px;
+}
+.register-container input[type="submit"]{
+	display:block;
+	margin:0 auto;
+	width:50%;
+    height:40px;
+	padding:0px 20px;
+	background-color:lightgreen;
+	border-radius:10px;
+	border-color:green;
+	cursor:pointer;
+	font-size:20px;
+	font-weight:bold;
+}
+.register-container input[type="submit"]:hover{
+	background-color:red;
+	color:white;
+}
+p{
+	text-align:center;
+}
+a:hover{
+	color:red;
+}

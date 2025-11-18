@@ -1,0 +1,50 @@
+#add-laptop{
+    width: 50%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  #add-laptop label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  #add-laptop input, add-laptop textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  #add-laptop textarea {
+    resize: vertical;
+  }
+
+  #add-laptop-btn {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  #add-laptop-btn:hover {
+    background-color: #3e8e41;
+  }
+ #generate-qr-code {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  #generate-qr-code:hover {
+    background-color: #3e8e41;
+  }
